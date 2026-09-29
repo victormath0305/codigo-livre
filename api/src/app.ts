@@ -86,6 +86,11 @@ export const buildOptions: FastifyHttpOptions<
 > = {
   loggerInstance: getLogger(),
   genReqId,
+  rewriteUrl: req => {
+    if (req.url === '/api') return '/';
+    if (req.url?.startsWith('/api/')) return req.url.slice(4);
+    return req.url ?? '/';
+  },
   // destroy all connections on close to avoid EADDRINUSE
   // on restart, in development. Leave default in production.
   forceCloseConnections:

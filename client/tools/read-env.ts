@@ -14,9 +14,12 @@ const defaultHomeLocation = vercelHost
   ? `https://${vercelHost}`
   : 'http://localhost:8000';
 
+const defaultApiLocation =
+  process.env.API_URL || (vercelHost ? '/api' : 'http://localhost:3000');
+
 const {
   HOME_LOCATION: homeLocation = defaultHomeLocation,
-  API_LOCATION: apiLocation = 'http://localhost:3000',
+  API_LOCATION: apiLocation = defaultApiLocation,
   FORUM_LOCATION: forumLocation = 'https://forum.freecodecamp.org',
   NEWS_LOCATION: newsLocation = 'https://www.freecodecamp.org/news',
   RADIO_LOCATION: radioLocation,
@@ -38,7 +41,11 @@ const locations = {
     vercelHost && homeLocation === 'http://localhost:8000'
       ? defaultHomeLocation
       : homeLocation,
-  apiLocation,
+  apiLocation:
+    (vercelHost || process.env.API_URL) &&
+    apiLocation === 'http://localhost:3000'
+      ? defaultApiLocation
+      : apiLocation,
   forumLocation,
   newsLocation,
   radioLocation: !radioLocation

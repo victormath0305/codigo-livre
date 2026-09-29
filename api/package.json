@@ -68,7 +68,7 @@
   },
   "homepage": "https://github.com/freeCodeCamp/freeCodeCamp#readme",
   "license": "BSD-3-Clause",
-  "main": "none",
+  "main": "dist/server.js",
   "name": "@freecodecamp/api",
   "type": "module",
   "private": true,

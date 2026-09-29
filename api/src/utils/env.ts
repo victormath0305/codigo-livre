@@ -9,30 +9,40 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const envPath = path.resolve(__dirname, '../../../.env');
 const { error } = config({ path: envPath });
 
-if (
-  error &&
-  process.env.FREECODECAMP_NODE_ENV == 'production' &&
-  process.env.NODE_ENV !== 'test'
-) {
-  console.warn(`
-  ----------------------------------------------------
-  Warning: .env file not found.
-  ----------------------------------------------------
-  Please copy sample.env to .env
+if (error) {
+  config({ path: path.resolve(__dirname, '../../../sample.env') });
+}
 
-  You can ignore this warning if using a different way
-  to setup this environment.
-  ----------------------------------------------------
-  `);
+const vercelHost =
+  process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+
+if (process.env.CLIENT_URL) {
+  process.env.HOME_LOCATION = process.env.CLIENT_URL;
+} else if (
+  vercelHost &&
+  (!process.env.HOME_LOCATION ||
+    process.env.HOME_LOCATION === 'http://localhost:8000')
+) {
+  process.env.HOME_LOCATION = `https://${vercelHost}`;
+}
+
+if (process.env.API_URL) {
+  process.env.API_LOCATION = process.env.API_URL;
+} else if (
+  vercelHost &&
+  (!process.env.API_LOCATION ||
+    process.env.API_LOCATION === 'http://localhost:3000')
+) {
+  process.env.API_LOCATION = `https://${vercelHost}/api`;
 }
 
 function isAllowedEnv(env: string): env is 'development' | 'production' {
   return ['development', 'production'].includes(env);
 }
 
-const _EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || 'ses';
+const _EMAIL_PROVIDER = process.env.EMAIL_PROVIDER || 'nodemailer';
 const _FREECODECAMP_NODE_ENV =
-  process.env.FREECODECAMP_NODE_ENV || 'production';
+  process.env.FREECODECAMP_NODE_ENV || 'development';
 
 function isAllowedProvider(provider: string): provider is 'ses' | 'nodemailer' {
   return ['ses', 'nodemailer'].includes(provider);

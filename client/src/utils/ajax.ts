@@ -17,7 +17,14 @@ import { DonationDuration } from '@freecodecamp/shared/config/donation-settings'
 
 const { apiLocation } = envData;
 
-const base = apiLocation;
+const base = (
+  typeof window !== 'undefined' &&
+  window.location.hostname !== 'localhost' &&
+  window.location.hostname !== '127.0.0.1' &&
+  apiLocation.includes('localhost')
+    ? '/api'
+    : apiLocation
+).replace(/\/$/, '');
 
 const defaultOptions: RequestInit = {
   credentials: 'include'

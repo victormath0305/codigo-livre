@@ -27,7 +27,11 @@ const prismaPlugin: FastifyPluginAsync = fp(async (server, _options) => {
   await prisma.$connect().catch((err: unknown) => {
     Sentry.metrics.count('db.connect_failed', 1);
     server.log.error(err, 'Prisma connection failed');
-    throw err;
+    const isLocalMongo =
+      MONGOHQ_URL.includes('127.0.0.1') || MONGOHQ_URL.includes('localhost');
+    if (!process.env.VERCEL || !isLocalMongo) {
+      throw err;
+    }
   });
 
   server.decorate('prisma', prisma);
