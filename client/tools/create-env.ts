@@ -6,6 +6,11 @@ import env from './read-env';
 
 const configPath = path.resolve(__dirname, '../config');
 
+process.env.CLIENT_LOCALE ||= 'english';
+process.env.CURRICULUM_LOCALE ||= 'english';
+process.env.DEPLOYMENT_ENV ||= 'staging';
+process.env.FREECODECAMP_NODE_ENV ||= 'development';
+
 const { FREECODECAMP_NODE_ENV } = process.env;
 
 function checkClientLocale() {

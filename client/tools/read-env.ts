@@ -5,39 +5,39 @@ const envPath = path.resolve(__dirname, '../../.env');
 const { error } = config({ path: envPath });
 
 if (error) {
-  console.warn(`
-  ----------------------------------------------------
-  Warning: .env file not found.
-  ----------------------------------------------------
-  Please copy sample.env to .env
-
-  You can ignore this warning if using a different way
-  to setup this environment.
-  ----------------------------------------------------
-  `);
+  config({ path: path.resolve(__dirname, '../../sample.env') });
 }
 
+const vercelHost =
+  process.env.VERCEL_PROJECT_PRODUCTION_URL || process.env.VERCEL_URL;
+const defaultHomeLocation = vercelHost
+  ? `https://${vercelHost}`
+  : 'http://localhost:8000';
+
 const {
-  HOME_LOCATION: homeLocation,
-  API_LOCATION: apiLocation,
-  FORUM_LOCATION: forumLocation,
-  NEWS_LOCATION: newsLocation,
+  HOME_LOCATION: homeLocation = defaultHomeLocation,
+  API_LOCATION: apiLocation = 'http://localhost:3000',
+  FORUM_LOCATION: forumLocation = 'https://forum.freecodecamp.org',
+  NEWS_LOCATION: newsLocation = 'https://www.freecodecamp.org/news',
   RADIO_LOCATION: radioLocation,
-  CLIENT_LOCALE: clientLocale,
-  CURRICULUM_LOCALE: curriculumLocale,
+  CLIENT_LOCALE: clientLocale = 'english',
+  CURRICULUM_LOCALE: curriculumLocale = 'english',
   ALGOLIA_APP_ID: algoliaAppId,
   ALGOLIA_API_KEY: algoliaAPIKey,
   STRIPE_PUBLIC_KEY: stripePublicKey,
   PAYPAL_CLIENT_ID: paypalClientId,
   PATREON_CLIENT_ID: patreonClientId,
-  DEPLOYMENT_ENV: deploymentEnv,
+  DEPLOYMENT_ENV: deploymentEnv = 'staging',
   SHOW_UPCOMING_CHANGES: showUpcomingChanges,
   GROWTHBOOK_URI: growthbookUri,
   DEPLOYMENT_VERSION: deploymentVersion
 } = process.env;
 
 const locations = {
-  homeLocation,
+  homeLocation:
+    vercelHost && homeLocation === 'http://localhost:8000'
+      ? defaultHomeLocation
+      : homeLocation,
   apiLocation,
   forumLocation,
   newsLocation,

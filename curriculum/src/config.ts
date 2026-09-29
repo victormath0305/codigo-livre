@@ -5,6 +5,10 @@ import { config } from 'dotenv';
 import { availableLangs } from '@freecodecamp/shared/config/i18n';
 
 config({ path: resolve(__dirname, '../../.env') });
+if (!process.env.CURRICULUM_LOCALE) {
+  config({ path: resolve(__dirname, '../../sample.env') });
+  process.env.CURRICULUM_LOCALE ||= 'english';
+}
 
 const curriculumLangs = availableLangs.curriculum;
 
@@ -29,7 +33,9 @@ const FCC_BLOCK = process.env.FCC_BLOCK
   : undefined;
 const FCC_SUPERBLOCK = process.env.FCC_SUPERBLOCK
   ? process.env.FCC_SUPERBLOCK.trim()
-  : undefined;
+  : process.env.VERCEL && !FCC_BLOCK && !FCC_CHALLENGE_ID && !process.env.FCC_FULL_BUILD
+    ? 'responsive-web-design-22'
+    : undefined;
 
 export const curriculumFilter = {
   ...(FCC_CHALLENGE_ID && { challengeId: FCC_CHALLENGE_ID }),

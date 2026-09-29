@@ -83,7 +83,7 @@ const download = async (clientLocale: string) => {
   }
 };
 
-const locale = process.env.CLIENT_LOCALE;
+const locale = process.env.CLIENT_LOCALE || 'english';
 
 if (!locale) throw Error('CLIENT_LOCALE must be set to a valid locale');
 

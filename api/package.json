@@ -63,7 +63,7 @@
     "vitest": "^4.0.15"
   },
   "engines": {
-    "node": ">=24",
+    "node": ">=20",
     "npm": ">=8"
   },
   "homepage": "https://github.com/freeCodeCamp/freeCodeCamp#readme",

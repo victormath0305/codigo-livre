@@ -1,0 +1,44 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "buildCommand": "pnpm run build:client",
+  "outputDirectory": "client/public",
+  "env": {
+    "CLIENT_LOCALE": "english",
+    "CURRICULUM_LOCALE": "english",
+    "DEPLOYMENT_ENV": "staging",
+    "FREECODECAMP_NODE_ENV": "development",
+    "SHOW_UPCOMING_CHANGES": "false",
+    "FCC_SUPERBLOCK": "responsive-web-design-22",
+    "FORUM_LOCATION": "https://forum.freecodecamp.org",
+    "NEWS_LOCATION": "https://www.freecodecamp.org/news",
+    "RADIO_LOCATION": "https://coderadio.freecodecamp.org"
+  },
+  "rewrites": [
+    {
+      "source": "/certification/:username/:certSlug",
+      "destination": "/certification/[username]/[certSlug]/index.html"
+    },
+    {
+      "source": "/challenges/:path*",
+      "destination": "/challenges/[...]/index.html"
+    },
+    {
+      "source": "/learn/daily-coding-challenge/:path*",
+      "destination": "/learn/daily-coding-challenge/[...]/index.html"
+    },
+    {
+      "source": "/settings/:path*",
+      "destination": "/settings/[...]/index.html"
+    },
+    {
+      "source": "/unsubscribed/:unsubscribeId",
+      "destination": "/unsubscribed/[unsubscribeId]/index.html"
+    },
+    {
+      "source": "/user/:username/report-user",
+      "destination": "/user/[username]/report-user/index.html"
+    }
+  ]
+}
